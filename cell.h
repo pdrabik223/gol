@@ -15,7 +15,7 @@ public:
 
     void reborn() { the_point_of_game_of_life = true; };
 
-    operator bool() const { return the_point_of_game_of_life; };
+    explicit operator bool() const { return the_point_of_game_of_life; };
 
 private:
     bool the_point_of_game_of_life;

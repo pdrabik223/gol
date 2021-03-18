@@ -1,26 +1,32 @@
 // jzo_gr2_stac
 
 #include <iostream>
+#include <conio.h>
 #include "console_win.h"
 
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Hello, World!" <<std::endl;
+
+    cell test(0);
+    if(!test) std::cout<<"lol";
+
     int x, y;
-    std::cin >> x >> y;
+    //std::cin >> x >> y;
+    x=5;y=5;
     board life(x, y);
 
     console_win game(&life);
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "EndlessLoop"
+
     while (true) {
 
     game.show_frame();
+    getch();
     game.gen_frame();
 
        }
-#pragma clang diagnostic pop
+
 
 
     return 0;
