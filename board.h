@@ -4,8 +4,8 @@
 
 #ifndef GOL_BOARD_H
 #define GOL_BOARD_H
+#include "cell.h"
 
-#include "byte.h"
 
 class board {
 
@@ -13,7 +13,7 @@ public:
 
     board(size_t x, size_t y) : width(y), height(x) {
         size_t size = x * y / 8;
-        plane = new dp::byte[x * y];
+        plane = new cell[x * y];
     };
 
     board(const board &other) {
@@ -40,25 +40,25 @@ public:
         short live_count = 0;
         unsigned char index = x - width;
 
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index]) ++live_count;
         --index;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
         index += 2;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
         index = x - 1;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
         index += 2;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
         index = x + width;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
         --index;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
         index += 2;
-        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        if (index >= 0 && plane[index])  ++live_count;
 
 
-        if (!plane[x / 8].get_bite(x % 8) && live_count == 3) return true;
-        else if (plane[x / 8].get_bite(x % 8) && (live_count == 2 || live_count == 3)) return true;
+        if (!plane[x ] && live_count == 3) return true;
+        else if (plane[x ] && (live_count == 2 || live_count == 3)) return true;
 
         else return false;
 
@@ -67,15 +67,12 @@ public:
 
     void iteration() {
 
-        unsigned char local_size(get_size() / 8);
-        if(get_size()%8!=0)++local_size;
-        dp::byte *plane_copy = new dp::byte[local_size];
+        cell *plane_copy = new cell[get_size()];
 
         for (int i = 0; i < get_size(); i++)
-            if (tmof(i))
-                plane_copy[i / 8].set_bite(i % 8, true);
-            else
-                plane_copy[i / 8].set_bite(i % 8, false);
+                plane_copy[i] = new cell(tmof(i));
+
+
 
 
         delete[] plane;
@@ -84,7 +81,7 @@ public:
         delete plane_copy;
     };
 
-    bool operator[](size_t position) { return plane[position / 8].get_bite(position % 8); };
+    bool operator[](size_t position) { return (bool)plane[position]; };
 
     size_t get_size() { return width * height; };
 
@@ -96,7 +93,7 @@ public:
 private:
     size_t width;
     size_t height;
-    dp::byte *plane;
+    cell *plane;
 
 
 };
