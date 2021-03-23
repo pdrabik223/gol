@@ -5,13 +5,16 @@
 #ifndef GOL_BOARD_H
 #define GOL_BOARD_H
 
-#include "cell.h"
+#include "byte.h"
 
 class board {
 
 public:
 
-    board(size_t x, size_t y) : width(y), height(x) { plane = new cell[x * y]; };
+    board(size_t x, size_t y) : width(y), height(x) {
+        size_t size = x * y / 8;
+        plane = new dp::byte[x * y];
+    };
 
     board(const board &other) {
         width = other.width;
@@ -32,21 +35,30 @@ public:
         // todo to sie da zrobić lepiej
         // ale pentle będą wyglądały tak samo źle
 
+
+        // impolementing infinite space
         short live_count = 0;
-        if (x - width - 1 >= 0 && plane[x - width - 1])++live_count;
-        if (x - width >= 0 && plane[x - width])++live_count;
-        if (x - width + 1 >= 0 && plane[x - width + 1])++live_count;
+        unsigned char index = x - width;
 
-        if (x - 1 >= 0 && plane[x - 1])++live_count;
-        if (x + 1 < get_size() && plane[x + 1])++live_count;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        --index;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        index += 2;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        index = x - 1;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        index += 2;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        index = x + width;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        --index;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
+        index += 2;
+        if (index >= 0 && plane[index / 8].get_bite(index % 8)) ++live_count;
 
-        if (x + width - 1 < get_size() && plane[x + width - 1])++live_count;
-        if (x + width < get_size() && plane[x + width])++live_count;
-        if (x + width + 1 < get_size() && plane[x + width + 1])++live_count;
 
-        if (live_count != 0) std::cout << x;
-        if (!plane[x] && live_count == 3) return true;
-        else if (plane[x] && (live_count == 2 || live_count == 3)) return true;
+        if (!plane[x / 8].get_bite(x % 8) && live_count == 3) return true;
+        else if (plane[x / 8].get_bite(x % 8) && (live_count == 2 || live_count == 3)) return true;
 
         else return false;
 
@@ -54,16 +66,25 @@ public:
     }
 
     void iteration() {
-        cell *plane_copy = new cell[get_size()];
-        for (int i = 0; i < get_size(); i++) plane_copy[i] = plane[i];
-        for (int i = 0; i < get_size(); i++) if (tmof(i)) plane[i].reborn(); else plane[i].kill();
+
+        unsigned char local_size(get_size() / 8);
+        if(get_size()%8!=0)++local_size;
+        dp::byte *plane_copy = new dp::byte[local_size];
+
+        for (int i = 0; i < get_size(); i++)
+            if (tmof(i))
+                plane_copy[i / 8].set_bite(i % 8, true);
+            else
+                plane_copy[i / 8].set_bite(i % 8, false);
+
+
         delete[] plane;
-        plane = new cell[get_size()];
+       // plane = new dp::byte[get_size()];
         plane = plane_copy;
         delete plane_copy;
     };
 
-    cell &operator[](size_t position) { return plane[position]; };
+    bool operator[](size_t position) { return plane[position / 8].get_bite(position % 8); };
 
     size_t get_size() { return width * height; };
 
@@ -75,7 +96,7 @@ public:
 private:
     size_t width;
     size_t height;
-    cell *plane;
+    dp::byte *plane;
 
 
 };

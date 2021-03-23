@@ -8,9 +8,6 @@
 int main() {
     std::cout << "Hello, World!" <<std::endl;
 
-    cell test(0);
-    if(!test) std::cout<<"lol";
-
     int x, y;
     //std::cin >> x >> y;
     x=5;y=5;
