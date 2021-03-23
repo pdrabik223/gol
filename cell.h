@@ -9,7 +9,10 @@ class cell {
 public:
     cell() : the_point_of_game_of_life(false) {};
 
-    cell(bool the_way_of_living) : the_point_of_game_of_life(the_way_of_living) {};
+    cell(bool the_way_of_living)  {
+     the_point_of_game_of_life = the_way_of_living;
+
+    };
 
     void kill() { the_point_of_game_of_life = false; };
 

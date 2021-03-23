@@ -4,15 +4,16 @@
 
 #ifndef GOL_BOARD_H
 #define GOL_BOARD_H
-#include "cell.h"
 
+#include "cell.h"
+#include <utility>
 
 class board {
 
 public:
 
     board(size_t x, size_t y) : width(y), height(x) {
-        size_t size = x * y / 8;
+
         plane = new cell[x * y];
     };
 
@@ -30,37 +31,61 @@ public:
         return *this;
     }
 
-    bool tmof(int x) {
+    bool tmof(int index) {
 
         // todo to sie da zrobić lepiej
-        // ale pentle będą wyglądały tak samo źle
 
 
-        // impolementing infinite space
-        short live_count = 0;
-        unsigned char index = x - width;
 
-        if (index >= 0 && plane[index]) ++live_count;
-        --index;
-        if (index >= 0 && plane[index])  ++live_count;
-        index += 2;
-        if (index >= 0 && plane[index])  ++live_count;
-        index = x - 1;
-        if (index >= 0 && plane[index])  ++live_count;
-        index += 2;
-        if (index >= 0 && plane[index])  ++live_count;
-        index = x + width;
-        if (index >= 0 && plane[index])  ++live_count;
-        --index;
-        if (index >= 0 && plane[index])  ++live_count;
-        index += 2;
-        if (index >= 0 && plane[index])  ++live_count;
+        // implementing infinite space
+        unsigned live_count = 0;
+
+        unsigned ix = index / width;
+        unsigned iy = index % width;
+        unsigned nx = ix;
+        unsigned ny = iy;
+
+        int surrounding[8];
+
+        surrounding[0] = index - width - 1;
+        surrounding[1] = index - width;
+        surrounding[2] = index - width + 1;
+        surrounding[3] = index - 1;
+        surrounding[4] = index + 1;
+        surrounding[5] = index + width - 1;
+        surrounding[6] = index + width;
+        surrounding[7] = index + width + 1;
+
+        if (ix == 0) {
+            surrounding[0] = get_size() - 1;
+            surrounding[1] = get_size() - 2;
+            surrounding[2] = get_size() - 3;
+        } else if (ix == height - 1) {
+            surrounding[5] = iy + 2;
+            surrounding[6] = iy + 1;
+            surrounding[7] = iy;
+        }
 
 
-        if (!plane[x ] && live_count == 3) return true;
-        else if (plane[x ] && (live_count == 2 || live_count == 3)) return true;
+        if (iy == 0) {
+            surrounding[0] += width - 1;
+            surrounding[3] += width - 1;
+            surrounding[5] += width - 1;
+        }
+        if (iy == width - 1) {
+            surrounding[2] -= width - 1;
+            surrounding[4] -= width - 1;
+            surrounding[7] -= width - 1;
+        }
 
-        else return false;
+        for (int i = 0; i < 8; i++) if (plane[surrounding[i]]) ++live_count;
+
+
+        if (live_count == 3) return true;
+
+        if (plane[index] && live_count == 2) return true;
+
+        return false;
 
 
     }
@@ -69,19 +94,21 @@ public:
 
         cell *plane_copy = new cell[get_size()];
 
-        for (int i = 0; i < get_size(); i++)
-                plane_copy[i] = new cell(tmof(i));
-
-
-
+        for (size_t i = 0; i < get_size(); i++)
+            if(tmof(i)) plane_copy[i] = new cell(true);
+            else plane_copy[i] = new cell(false);
 
         delete[] plane;
-       // plane = new dp::byte[get_size()];
-        plane = plane_copy;
-        delete plane_copy;
+        plane = new cell[get_size()];
+
+        for (size_t i = 0; i < get_size(); i++) // todo this can be better, but i don't know how to do it
+            plane[i] = plane_copy[i];
+
+        delete[] plane_copy;
+
     };
 
-    bool operator[](size_t position) { return (bool)plane[position]; };
+    bool operator[](size_t position) { return (bool) plane[position]; };
 
     size_t get_size() { return width * height; };
 
