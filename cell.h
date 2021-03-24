@@ -9,10 +9,16 @@ class cell {
 public:
     cell() : the_point_of_game_of_life(false) {};
 
-    cell(bool the_way_of_living)  {
-     the_point_of_game_of_life = the_way_of_living;
 
-    };
+    cell &operator=(const cell &other) {
+        if (this == &other)return *this;
+        the_point_of_game_of_life = other.the_point_of_game_of_life;
+        return *this;
+    }
+
+    cell(const cell &other) { the_point_of_game_of_life = other.the_point_of_game_of_life; }
+
+    cell(bool other) { the_point_of_game_of_life = other; }
 
     void kill() { the_point_of_game_of_life = false; };
 
@@ -23,4 +29,5 @@ public:
 private:
     bool the_point_of_game_of_life;
 };
+
 #endif //GOL_CELL_H

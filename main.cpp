@@ -12,7 +12,11 @@ int main() {
 
     x=5;y=5;
     board life(x, y);
-
+    life[7] = true;
+    life[13] = true;
+    life[16] = true;
+    life[17] = true;
+    life[18] = true;
     console_win game(&life);
 
 int z=0;
