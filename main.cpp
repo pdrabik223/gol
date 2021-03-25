@@ -6,12 +6,13 @@
 
 
 int main() {
-    std::cout << "Hello, World!" <<std::endl;
+    std::cout << "Hello, World!" << std::endl;
 
     int x, y;
 
-    x=5;y=5;
-    board life(x, y);
+    x = 7;
+    y = 7;
+    game_engine life(x, y);
     life[7] = true;
     life[13] = true;
     life[16] = true;
@@ -19,17 +20,16 @@ int main() {
     life[18] = true;
     console_win game(&life);
 
-int z=0;
+    int z = 0;
     while (true) {
 
-    game.show_frame();
-    printf("frame : %d",z);
-    getch();
-    game.gen_frame();
+        game.show_frame();
+        printf("frame : %d", z);
+        getch();
+        game.gen_frame();
 
-    ++z;
+        ++z;
     }
-
 
 
     return 0;

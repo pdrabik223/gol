@@ -1,5 +1,5 @@
 //
-// Created by studio25 on 18.03.2021.
+// Created by Piotr Drabik on 18.03.2021.
 //
 
 #ifndef GOL_CELL_H
