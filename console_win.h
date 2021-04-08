@@ -12,26 +12,19 @@ class console_win : public engine_traits {
 
 public:
     console_win() = delete;
-    console_win(game_engine *other_life) { life = other_life; };
+
+    console_win(game_engine *other_life) { life =other_life; };
 
     void gen_frame() { life->iteration(); };
 
-    void show_frame() {
-      system("cls");
-        for (int i = 0; i < life->get_height(); i++) {
-            for (int j = 0; j < life->get_width(); j++) {
+    void show_frame() override;
 
-                if(life->operator[](i*life->get_width()+j)) printf("# ");
-                else printf(". ");
-
-            }
-            printf("\n");
-        }
-    };
-
+    ~console_win(){delete life;}
 protected:
     game_engine *life;
 
 };
+
+
 
 #endif //GOL_CONSOLE_WIN_H

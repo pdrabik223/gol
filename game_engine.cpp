@@ -22,8 +22,6 @@ bool game_engine::game_rules(int index) {
 
     // todo to sie da zrobić lepiej
 
-
-
     // implementing infinite space
     unsigned live_count = 0;
 

@@ -1,4 +1,4 @@
-// jzo_gr2_stac
+//
 
 #include <iostream>
 #include <conio.h>
@@ -13,11 +13,11 @@ int main() {
     x = 7;
     y = 7;
     game_engine life(x, y);
-    life[7] = true;
-    life[13] = true;
-    life[16] = true;
-    life[17] = true;
-    life[18] = true;
+    life.get_cell(2,3) = true;
+    life.get_cell(3,4) = true;
+    life.get_cell(4,4) = true;
+    life.get_cell(4,3) = true;
+    life.get_cell(4,2) = true;
     console_win game(&life);
 
     int z = 0;
@@ -25,12 +25,12 @@ int main() {
 
         game.show_frame();
         printf("frame : %d", z);
-        getch();
+        _sleep(1000);
         game.gen_frame();
 
         ++z;
+
     }
 
 
-    return 0;
 }

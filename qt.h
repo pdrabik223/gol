@@ -19,9 +19,8 @@ public:
 
     void show_frame() {
         // here's where magic happens
-
     };
-
+~qt(){delete life;}
 protected:
     game_engine *life;
 

@@ -27,6 +27,8 @@ public:
 
     cell& operator[](size_t position) { return plane[position]; };
 
+    cell& get_cell(size_t x,size_t y){return plane[x*width+y];};
+
     size_t get_size() { return width * height; };
 
     size_t get_width() { return width; };
