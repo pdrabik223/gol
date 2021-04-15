@@ -6,10 +6,10 @@
 #define GOL_ENGINE_TRAITS_H
 
 class engine_traits{
-
+protected:
 virtual void gen_frame() = 0;
 virtual void show_frame() = 0;
-
+virtual ~engine_traits() = 0;
 
 };
 

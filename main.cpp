@@ -18,6 +18,9 @@ int main() {
     life.get_cell(4,4) = true;
     life.get_cell(4,3) = true;
     life.get_cell(4,2) = true;
+
+
+
     console_win game(&life);
 
     int z = 0;

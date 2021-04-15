@@ -35,7 +35,9 @@ public:
 
     size_t get_height() { return height; };
 
-
+    ~game_engine(){
+        delete[] plane;
+    }
 private:
     size_t width;
     size_t height;
