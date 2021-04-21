@@ -4,7 +4,7 @@
 #include "game_engine.h"
 
 
- game_engine &game_engine::operator=(const game_engine &other) {
+game_engine &game_engine::operator=(const game_engine &other) {
     if (this != &other) return *this;
     width = other.width;
     height = other.height;
@@ -78,8 +78,7 @@ void game_engine::iteration() {
     cell *plane_copy = new cell[get_size()];
 
     for (size_t i = 0; i < get_size(); i++)
-        if (game_rules(i)) plane_copy[i] = cell(true);
-        else plane_copy[i] = cell();
+        plane_copy[i] = game_rules(i) ? cell(true) : cell(false);
 
 
     delete[] plane;
