@@ -24,6 +24,14 @@ public:
 
     ~console_win() { delete life; }
 
+    /// main loop of the game
+    /// maintains game running till the end of times
+    /// \return handles generation, and output of chosen game of life
+    /// \param time_between_frames the wait time between two consecutive frames
+    /// the default value for time_between_frames is 1000 = 1s
+
+    void play(unsigned int time_between_frames = 1000);
+
 protected:
     /// the ui holds ahe address of played game
     /// this way we can easily modify played game
