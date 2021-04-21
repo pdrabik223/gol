@@ -1,7 +1,5 @@
-//
 
-#include <iostream>
-#include <conio.h>
+
 #include "console_win.h"
 
 
@@ -9,8 +7,8 @@ int main() {
 
     int x, y;
 
-    x = 7; // gra będzie miała wyokość 7 komórek
-    y = 7; // szerokość 7 komórek
+    x = 7; // game will be 7 cells high
+    y = 7; // and 7 cells width
     game_engine life(x, y);
     life.get_cell(2,3) = true;
     life.get_cell(3,4) = true;
@@ -20,8 +18,8 @@ int main() {
 
 
 
-    console_win game(&life); // przekazujemy mu wskaźnik na grę
-    game.play(1000); // gra będzie wyświetlała klatę co 1s
+    console_win game(&life); // passing pointer to our game
+    game.play(1000); // the game will update every second
 
 
 

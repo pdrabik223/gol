@@ -1,4 +1,4 @@
-# Game of Live 
+# Game of Life 
 
 
 Projekt "gry w życie" przygotowany na zajęcia programowania obiektowego
