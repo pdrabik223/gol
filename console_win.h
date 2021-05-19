@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "engine_traits.h"
-#include "game_engine.h"
+#include "gol_base/game_engine.h"
 
 
 ///provides visualisation of played game using windows console
