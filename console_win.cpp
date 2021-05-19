@@ -2,6 +2,7 @@
 // Created by studio25 on 08.04.2021.
 //
 
+#include <thread>
 #include "console_win.h"
 
 void console_win::show_frame() {
@@ -23,7 +24,7 @@ void console_win::play(unsigned int time_between_frames /* by default 1000*/) {
         system("cls");
         show_frame();
         printf("frame : %d", z);
-        _sleep(time_between_frames);
+        std::this_thread::sleep_for(std::chrono::milliseconds(time_between_frames));
         gen_frame();
         ++z;
     }
