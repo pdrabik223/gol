@@ -78,7 +78,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             DestroyWindow(hwnd);
             break;
         }
-        case 0:
+        case WM_cre:
             HPEN CzerwonePioro;
             CzerwonePioro = CreatePen(PS_SOLID, 1, 0x0000FF);
 
