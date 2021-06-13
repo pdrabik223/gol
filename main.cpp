@@ -6,7 +6,7 @@
 int main() {
 
     int x, y;
-
+  // test
     x = 7; // game will be 7 cells high
     y = 7; // and 7 cells width
     game_engine life(x, y);
