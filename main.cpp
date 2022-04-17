@@ -1,33 +1,29 @@
-// jzo_gr2_stac
 
-#include <iostream>
-#include <conio.h>
+
 #include "console_win.h"
 
 
 int main() {
-    std::cout << "Hello, World!" <<std::endl;
-
-    cell test(0);
-    if(!test) std::cout<<"lol";
 
     int x, y;
-    //std::cin >> x >> y;
-    x=5;y=5;
-    board life(x, y);
+  // test
 
-    console_win game(&life);
-
-
-    while (true) {
-
-    game.show_frame();
-    getch();
-    game.gen_frame();
-
-       }
+    /// will see if it works
+    x = 7; // game will be 7 cells high
+    y = 7; // and 7 cells width
+    game_engine life(x, y);
+//    life.get_cell(2,3) = true;
+//    life.get_cell(3,4) = true;
+//    life.get_cell(4,4) = true;
+//    life.get_cell(4,3) = true;
+//    life.get_cell(4,2) = true;
 
 
 
-    return 0;
+    console_win game(&life); // passing pointer to our game
+    game.play(1000); // the game will update every second
+
+
+
+    return 1;
 }

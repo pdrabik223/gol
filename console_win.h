@@ -1,37 +1,43 @@
 //
-// Created by studio25 on 18.03.2021.
+// Created by Piotr Drabik on 18.03.2021.
 //
 
 #ifndef GOL_CONSOLE_WIN_H
 #define GOL_CONSOLE_WIN_H
+
 #include <iostream>
 #include "engine_traits.h"
-#include "board.h"
+#include "gol_base/game_engine.h"
 
+
+///provides visualisation of played game using windows console
 class console_win : public engine_traits {
 
 public:
     console_win() = delete;
-    console_win( board *other_life) { life = other_life; };
+
+    console_win(game_engine *other_life) { life = other_life; };
 
     void gen_frame() { life->iteration(); };
 
-    void show_frame() {
-      system("cls");
-        for (int i = 0; i < life->get_height(); i++) {
-            for (int j = 0; j < life->get_width(); j++) {
+    void show_frame() override;
 
-                if(life->operator[](i*life->get_width()+j)) printf("# ");
-                else printf(". ");
+    ~console_win() { delete life; }
 
-            }
-            printf("\n");
-        }
-    };
+    /// main loop of the game
+    /// maintains game running till the end of times
+    /// \return handles generation, and output of chosen game of life
+    /// \param time_between_frames the wait time between two consecutive frames
+    /// the default value for time_between_frames is 1000 = 1s
+
+    void play(unsigned int time_between_frames = 1000);
 
 protected:
-    board *life;
+    /// the ui holds ahe address of played game
+    /// this way we can easily modify played game
+    game_engine *life;
 
 };
+
 
 #endif //GOL_CONSOLE_WIN_H
